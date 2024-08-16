@@ -24,7 +24,6 @@ Matrix matMul(Matrix a, Matrix b){
       }
     }
   }
-
   return ans;
 }
 
@@ -46,13 +45,13 @@ Matrix matPow( Matrix base, int p ){
 
 
 int main(){
-  long long a, b;
+  int a, b;
   Matrix fibMatrix;
-  while( scanf("%lld %lld", &a, &b) != EOF ){
+  while( scanf("%d %d", &a, &b) == 2 ){
     fibMatrix.mat[0][0] = 1; fibMatrix.mat[0][1] = 1; fibMatrix.mat[1][0] = 1; fibMatrix.mat[1][1] = 0;
     MOD = 1 << b;
-    fibMatrix = matPow(fibMatrix, a - 1);
-    printf("%lld\n", fibMatrix.mat[0][0]); 
+    fibMatrix = matPow(fibMatrix, a);
+    printf("%lld\n", fibMatrix.mat[0][1]); 
   }
 
   return 0;
