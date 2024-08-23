@@ -19,9 +19,23 @@ public:
   friend bool Null(const BigInt &);
   friend int Length(const BigInt &);
 
+  // Memory related operators.
   int operator[](int index)const;
+  BigInt &operator=(const BigInt &);
+
+  // Comparison operators.
   friend bool operator==(const BigInt &, const BigInt &);
-  
+  friend bool operator!=(const BigInt &, const BigInt &);
+  friend bool operator<(const BigInt &, const BigInt &);
+  friend bool operator>(const BigInt &, const BigInt &);
+  friend bool operator<=(const BigInt &, const BigInt &);
+  friend bool operator>=(const BigInt &, const BigInt &);
+
+  // Arithmetic Operators
+  BigInt &operator++();
+  BigInt operator++(int temp);
+  BigInt &operator--();
+  BigInt operator--(int temp);
 
   // Read and Write
   friend ostream &operator<<(ostream &, const BigInt &);
@@ -92,15 +106,68 @@ int Length(const BigInt &a){
   return a.digits.size();
 }
 
+// Operators definition.
+
+// Memory related operators definition.
 int BigInt::operator[](const int index)const{
   if(digits.size() <= index || index < 0)
     throw("Error: cannot access invalid position");
   return digits[index];
 }
 
+BigInt &BigInt::operator=(const BigInt &a){
+  digits = a.digits;
+  signBit = a.signBit;
+  return *this;
+}
+
+// Comparison operators definition.
 bool operator==(const BigInt &a, const BigInt &b){
   return a.digits == b.digits && a.signBit == b.signBit;
 }
+
+bool operator!=(const BigInt &a, const BigInt &b){
+  return !(a==b);
+}
+
+bool operator<(const BigInt &a, const BigInt &b){
+  if( a.signBit != b.signBit )
+    return a.signBit < b.signBit;
+  int size_a = a.digits.size(); int size_b = b.digits.size();
+
+  if(size_a != size_b)
+    return size_a < size_b;
+
+  // Since both have same size;
+  int n = size_a; 
+  // Setting index for [] in string
+  n--;
+  while(n >= 0){
+    if( a.digits[n] != b.digits[n] ){
+      return a.digits[n] < b.digits[n];
+    }
+    n--;
+  }
+
+  // They're equal
+  return false;
+}
+
+bool operator>(const BigInt &a, const BigInt &b){
+  return b < a;
+}
+
+bool operator<=(const BigInt &a, const BigInt &b){
+  return !(a > b);
+}
+
+bool operator>=(const BigInt &a, const BigInt &b){
+  return !(a < b);
+}
+
+// Defining the Arithmetic Operators.
+
+
 
 //=========================================================================//
 //======================Defining Read and Write============================//
@@ -150,6 +217,9 @@ ostream &operator<<(ostream &out, const BigInt &a){
  * [x] Null and Size functions seems to be working.
  * [x] operator[] worked.
  * [x] operator== seems to be working.
+ * [x] operator!= implemented. Since operator== is working, i will 
+ *     not test this one.
+ *
  */
 int main(){
   cout << "====================================================\n";
@@ -181,6 +251,12 @@ int main(){
   BigInt i2("5334");
   BigInt i3("-5334");
   BigInt i4("10");
+  BigInt i5("5335");
+  cout << "i1: " << i1 << '\n';
+  cout << "i2: " << i2 << '\n';
+  cout << "i3: " << i3 << '\n';
+  cout << "i4: " << i4 << '\n';
+  cout << "i5: " << i5 << '\n';
   
   bool comparing;
   comparing = (i1 == i2);
@@ -188,7 +264,17 @@ int main(){
   comparing = (i1 == i3);
   cout << "Compare i1 and i3: " << comparing << '\n';
   comparing = (i1 == i4);
-  cout << "Compare i1 and i4: " << comparing << '\n';
+  cout << "Compare i1 and i4: " << comparing << '\n' << '\n';
+
+  // This should output --> false, false, false, true.
+  comparing = (i1 < i2);
+  cout << "i1 < i2: " << comparing << '\n';
+  comparing = (i1 < i3);
+  cout << "i1 < i3: " << comparing << '\n';
+  comparing = (i1 < i4);
+  cout << "i1 < i4: " << comparing << '\n';
+  comparing = (i1 < i5);
+  cout << "i1 < i5: " << comparing << '\n' << '\n';
 
   cout << "====================================================\n";
 
