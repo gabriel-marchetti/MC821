@@ -52,6 +52,31 @@ int main(){
     mods[4] -= aux_group;
   }
 
+  if(mods[1] && mods[2]){
+    aux_group = min(mods[2], mods[1]/3);
+    num_groups += aux_group;
+    mods[1] -= 3 * aux_group;
+    mods[2] -= aux_group;
+  }
+  else if( mods[1] && mods[3] ){
+    aux_group = min(mods[1], mods[3]/3);
+    num_groups += aux_group;
+    mods[1] -= aux_group;
+    mods[3] -= 3 * aux_group;
+  }
+  else if( mods[2] && mods[4] ){
+    aux_group = min(mods[2]/3, mods[4]);
+    num_groups += aux_group;
+    mods[2] -= aux_group * 3;
+    mods[4] -= aux_group;
+  }
+  else if( mods[3] && mods[4] ){
+    aux_group = min(mods[4]/3, mods[3]);
+    num_groups += aux_group;
+    mods[4] -= aux_group * 3;
+    mods[3] -= aux_group;
+  }
+
   if(mods[1]){
     aux_group = mods[1] / 5;
     num_groups += aux_group;

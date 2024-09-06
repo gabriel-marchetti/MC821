@@ -248,6 +248,7 @@ int main(){
   // Testing EulerPhiTotient Function.
   printf("---------------------------------------\n");
   printf("EulerPhiTotient(36): %lld\n", eulerPhi(36LL));
+  printf("EulerPhiTotient(20): %lld\n", eulerPhi(20LL));
 
   // Testing function for numDiffPF(N)
   printf("---------------------------------------\n");
